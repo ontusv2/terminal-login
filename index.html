@@ -5,90 +5,58 @@
 <title>Terminal Login</title>
 <style>
 body {
-    background-color: #000;
-    color: #fff;
-    font-family: "Courier New", monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    background:black;
+    color:white;
+    font-family:Courier New, monospace;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
 }
-
-.terminal {
-    border: 2px solid #fff;
-    padding: 30px;
-    width: 400px;
-    box-shadow: 0 0 15px #fff;
+.box {
+    border:2px solid white;
+    padding:30px;
+    width:350px;
 }
-
-h2 {
-    margin-top: 0;
+input, button {
+    width:100%;
+    margin-top:10px;
+    padding:8px;
+    background:black;
+    color:white;
+    border:1px solid white;
+    font-family:Courier New, monospace;
 }
-
-input {
-    background: #000;
-    border: 1px solid #fff;
-    color: #fff;
-    font-family: "Courier New", monospace;
-    padding: 8px;
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-button {
-    background: #000;
-    border: 1px solid #fff;
-    color: #fff;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-family: "Courier New", monospace;
-}
-
 button:hover {
-    background: #fff;
-    color: #000;
-}
-
-.output {
-    margin-top: 15px;
-    min-height: 20px;
+    background:white;
+    color:black;
 }
 </style>
 </head>
-
 <body>
-
-<div class="terminal">
-    <h2>ACCESS TERMINAL</h2>
-    <p>> Enter Credentials</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+<div class="box">
+    <h3>ACCESS TERMINAL</h3>
+    <input type="text" id="u" placeholder="Username">
+    <input type="password" id="p" placeholder="Password">
     <button onclick="login()">LOGIN</button>
-    <div class="output" id="output"></div>
+    <p id="msg"></p>
 </div>
 
 <script>
-function login() {
-    const user = document.getElementById("username").value;
-    const pass = document.getElementById("password").value;
-    const output = document.getElementById("output");
-
-    // CHANGE THESE
-    const correctUser = "admin";
-    const correctPass = "blackout";
-
-    if (user === correctUser && pass === correctPass) {
-        output.innerHTML = "> ACCESS GRANTED...";
-        setTimeout(() => {
-            window.location.href = "https://sites.google.com/view/zpchicagospiritsdatabase/nekyia";
-        }, 1500);
+function login(){
+    if(document.getElementById("u").value==="admin" &&
+       document.getElementById("p").value==="blackout"){
+        document.getElementById("msg").innerText="ACCESS GRANTED";
+        setTimeout(()=>{
+            window.location.href="https://sites.google.com/view/zpchicagospiritsdatabase/nekyia";
+        },1000);
     } else {
-        output.innerHTML = "> ACCESS DENIED.";
+        document.getElementById("msg").innerText="ACCESS DENIED";
     }
 }
 </script>
-
 </body>
 </html>
+
 

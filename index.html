@@ -1,126 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Terminal Login</title>
 <style>
-  body {
-    margin: 0;
-    background: #000;
+body {
+    background-color: #000;
     color: #fff;
     font-family: "Courier New", monospace;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-  .terminal {
+.terminal {
+    border: 2px solid #fff;
     padding: 30px;
-    max-width: 600px;
-  }
+    width: 400px;
+    box-shadow: 0 0 15px #fff;
+}
 
-  .line {
-    margin-bottom: 12px;
-  }
+h2 {
+    margin-top: 0;
+}
 
-  input {
+input {
     background: #000;
+    border: 1px solid #fff;
     color: #fff;
-    border: none;
-    outline: none;
-    font-family: inherit;
-    font-size: 16px;
-    width: 250px;
-  }
+    font-family: "Courier New", monospace;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+}
 
-  .error {
-    color: white;
-  }
+button {
+    background: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+}
 
-  .cursor::after {
-    content: "_";
-    animation: blink 1s steps(2, start) infinite;
-  }
+button:hover {
+    background: #fff;
+    color: #000;
+}
 
-  @keyframes blink {
-    to { visibility: hidden; }
-  }
+.output {
+    margin-top: 15px;
+    min-height: 20px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="terminal">
-  <div class="line">SYSTEM ACCESS TERMINAL</div>
-  <div class="line">----------------------</div>
-
-  <div class="line">
-    Username: <input id="username" autofocus>
-  </div>
-
-  <div class="line">
-    Password: <input id="password" type="password">
-  </div>
-
-  <div class="line cursor" id="status"></div>
-  <div class="line error" id="error"></div>
+    <h2>ACCESS TERMINAL</h2>
+    <p>> Enter Credentials</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">LOGIN</button>
+    <div class="output" id="output"></div>
 </div>
 
 <script>
-/* ===== CONFIGURE THESE ===== */
-const USERNAME = "nekyia";
-const PASSWORD = "Truth";
+function login() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+    const output = document.getElementById("output");
 
-/*
-If redirecting to another page in SAME repo:
-Example: "secret.html"
+    // CHANGE THESE
+    const correctUser = "admin";
+    const correctPass = "blackout";
 
-If redirecting to folder:
-Example: "pages/secret.html"
-
-If redirecting external:
-Example: "https://example.com"
-*/
-const DESTINATION_URL = "https://sites.google.com/view/zpchicagospiritsdatabase/henchmen/nekyia";
-/* ============================ */
-
-const userInput = document.getElementById("username");
-const passInput = document.getElementById("password");
-const status = document.getElementById("status");
-const error = document.getElementById("error");
-
-let locked = false;
-
-function attemptLogin() {
-  if (locked) return;
-  locked = true;
-
-  error.textContent = "";
-  status.textContent = "Authenticating...";
-
-  const enteredUser = userInput.value.trim();
-  const enteredPass = passInput.value.trim();
-
-  setTimeout(() => {
-    if (enteredUser === USERNAME && enteredPass === PASSWORD) {
-      status.textContent = "ACCESS GRANTED";
-      
-      setTimeout(() => {
-        window.location.href = DESTINATION_URL;
-      }, 1000);
-
+    if (user === correctUser && pass === correctPass) {
+        output.innerHTML = "> ACCESS GRANTED...";
+        setTimeout(() => {
+            window.location.href = "https://sites.google.com/view/zpchicagospiritsdatabase/henchmen/nekyia";
+        }, 1500);
     } else {
-      status.textContent = "";
-      error.textContent = "ACCESS DENIED";
-      locked = false;
+        output.innerHTML = "> ACCESS DENIED.";
     }
-  }, 800);
 }
-
-userInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") attemptLogin();
-});
-
-passInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") attemptLogin();
-});
 </script>
 
 </body>

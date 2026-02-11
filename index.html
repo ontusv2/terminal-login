@@ -6,114 +6,122 @@
 <style>
   body {
     margin: 0;
-    background: black;
-    color: white;
+    background: #000;
+    color: #fff;
     font-family: "Courier New", monospace;
   }
+
   .terminal {
-    padding: 20px;
+    padding: 30px;
+    max-width: 600px;
   }
+
   .line {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
+
   input {
-    background: black;
-    color: white;
+    background: #000;
+    color: #fff;
     border: none;
     outline: none;
     font-family: inherit;
     font-size: 16px;
-    width: 220px;
+    width: 250px;
   }
-  .hidden {
-    display: none;
-  }
-  a.terminal-link {
+
+  .error {
     color: white;
-    text-decoration: none;
-    cursor: pointer;
   }
-  a.terminal-link:hover {
-    text-decoration: underline;
+
+  .cursor::after {
+    content: "_";
+    animation: blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes blink {
+    to { visibility: hidden; }
   }
 </style>
 </head>
 
 <body>
-<div class="terminal" id="terminal">
+
+<div class="terminal">
   <div class="line">SYSTEM ACCESS TERMINAL</div>
   <div class="line">----------------------</div>
 
   <div class="line">
-    Username: <input id="username">
+    Username: <input id="username" autofocus>
   </div>
+
   <div class="line">
     Password: <input id="password" type="password">
   </div>
 
-  <div class="line" id="status"></div>
-  <div class="line hidden" id="error">ACCESS DENIED</div>
+  <div class="line cursor" id="status"></div>
+  <div class="line error" id="error"></div>
 </div>
 
 <script>
-  /* ===== CONFIG ===== */
-  const USERNAME = "nekyia";
-  const PASSWORD = "Truth";
-  const DESTINATION_URL = "https://sites.google.com/view/zpchicagospiritsdatabase/nekyia";
-  /* ================== */
+/* ===== CONFIGURE THESE ===== */
+const USERNAME = "nekyia";
+const PASSWORD = "Truth";
 
-  const userInput = document.getElementById("username");
-  const passInput = document.getElementById("password");
-  const status = document.getElementById("status");
-  const error = document.getElementById("error");
-  const terminal = document.getElementById("terminal");
+/*
+If redirecting to another page in SAME repo:
+Example: "secret.html"
 
-  let locked = false;
+If redirecting to folder:
+Example: "pages/secret.html"
 
-  function attemptLogin() {
-    if (locked) return;
-    locked = true;
+If redirecting external:
+Example: "https://example.com"
+*/
+const DESTINATION_URL = "https://sites.google.com/view/zpchicagospiritsdatabase/henchmen/nekyia";
+/* ============================ */
 
-    error.classList.add("hidden");
-    status.textContent = "Authenticating...";
+const userInput = document.getElementById("username");
+const passInput = document.getElementById("password");
+const status = document.getElementById("status");
+const error = document.getElementById("error");
 
-    const u = userInput.value.trim();
-    const p = passInput.value.trim();
+let locked = false;
 
-    setTimeout(() => {
-      if (u === USERNAME && p === PASSWORD) {
-        success();
-      } else {
-        status.textContent = "";
-        error.classList.remove("hidden");
-        locked = false;
-      }
-    }, 700);
-  }
+function attemptLogin() {
+  if (locked) return;
+  locked = true;
 
-  function success() {
-    status.textContent = "ACCESS GRANTED";
+  error.textContent = "";
+  status.textContent = "Authenticating...";
 
-    userInput.disabled = true;
-    passInput.disabled = true;
+  const enteredUser = userInput.value.trim();
+  const enteredPass = passInput.value.trim();
 
-    const linkLine = document.createElement("div");
-    linkLine.className = "line";
-    linkLine.innerHTML =
-      `> <a class="terminal-link" href="${DESTINATION_URL}" target="_top">
-      CLICK HERE TO CONTINUE
-      </a>`;
+  setTimeout(() => {
+    if (enteredUser === USERNAME && enteredPass === PASSWORD) {
+      status.textContent = "ACCESS GRANTED";
+      
+      setTimeout(() => {
+        window.location.href = DESTINATION_URL;
+      }, 1000);
 
-    terminal.appendChild(linkLine);
-  }
+    } else {
+      status.textContent = "";
+      error.textContent = "ACCESS DENIED";
+      locked = false;
+    }
+  }, 800);
+}
 
-  userInput.addEventListener("keydown", e => {
-    if (e.key === "Enter") attemptLogin();
-  });
+userInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") attemptLogin();
+});
 
-  passInput.addEventListener("keydown", e => {
-    if (e.key === "Enter") attemptLogin();
-  });
+passInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") attemptLogin();
+});
 </script>
+
 </body>
 </html>
